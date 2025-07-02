@@ -7,7 +7,13 @@ st.title("🌸 九華リーディング - 宇宙と繋がる魂のナビゲー�
 
 # 入力フォーム
 name = st.text_input("🌟 お名前（ニックネーム可）")
-birth_date = st.date_input("🌙 生年月日", min_value=datetime.date(1900, 1, 1), max_value=datetime.date.today())
+
+birth_date = st.date_input(
+    "生年月日を選択",
+    min_value=datetime.date(1900, 1, 1),
+    max_value=datetime.date(2100, 12, 31)
+)
+
 blood_type = st.selectbox("🩸 血液型を選んでください", ["A", "B", "O", "AB"])
 element = st.selectbox("🌸 あなたが惹かれる華のエレメント", ["風華", "火華", "水華", "土華", "空華", "雷華", "光華", "闇華", "霊華"])
 question = st.text_area("🔮 今、知りたいこと・テーマ（任意）")
