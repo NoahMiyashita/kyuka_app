@@ -7,7 +7,7 @@ import random
 # =========================
 def get_zodiac_sign(month, day):
     if (month == 3 and day >= 21) or (month == 4 and day <= 19):
-        return '牡羊座'
+        return '牡羊座' 
     elif (month == 4 and day >= 20) or (month == 5 and day <= 20):
         return '牡牛座'
     elif (month == 5 and day >= 21) or (month == 6 and day <= 20):
