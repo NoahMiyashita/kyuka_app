@@ -47,13 +47,20 @@ def assign_konka(zodiac):
     return mapping.get(zodiac, "魂華（こんか / Konka）")
 
 # ==== UI ====
-st.title("🌸 九華リーディング - Neo Cosmique Ver.")
+st.title("🌸 九華リーディング ")
 st.caption("Produced by 宮下ノア")
 
 st.markdown("あなたの魂華（こんか）を読み解き、人生の羅針盤を手に入れましょう。")
 
 name = st.text_input("お名前（ニックネーム可）")
-birth_date = st.date_input("生年月日を選択", min_value=datetime.date(1900, 1, 1), max_value=datetime.date.today())
+
+
+birth_date = st.date_input(
+    "生年月日を選択",
+    min_value=datetime.date(1900, 1, 1),
+    max_value=datetime.date.today()
+)
+
 
 question = st.text_area("🔮 今、知りたいこと・テーマ（任意）")
 
