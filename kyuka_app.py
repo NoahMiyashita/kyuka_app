@@ -57,8 +57,8 @@ name = st.text_input("お名前（ニックネーム可）")
 
 birth_date = st.date_input(
     "生年月日を選択",
-    min_value=datetime.date(1900, 1, 1),
-    max_value=datetime.date.today()
+    min_value=datetime.date(1000, 1, 1),
+    
 )
 
 
