@@ -1,3 +1,4 @@
+
 import streamlit as st
 import datetime
 import random
@@ -43,7 +44,7 @@ def assign_konka(zodiac):
 
 # ======== UI構築 ========
 st.title("🌸 九華リーディング - 宇宙と繋がる魂のナビゲーション")
-st.subheader("あなたの内なる運命と使命を読み解きます")  
+st.subheader("あなたの内なる運命と使命を読み解きます")
 
 name = st.text_input("🧚 お名前（ニックネーム可）")
 birth_date = st.date_input("🎂 生年月日を選択", min_value=datetime.date(1900, 1, 1))
@@ -138,3 +139,4 @@ if st.button("✨ リーディングを始める") and name and birth_date:
     ---
     """)
     st.caption("©️ 2025 九華リーディング - Neo Cosmique Edition")
+
