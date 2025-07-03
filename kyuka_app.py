@@ -1,35 +1,28 @@
 import streamlit as st
 import datetime
 import random
+import os
+import openai
+from dotenv import load_dotenv
 
-# =========================
-# 魂華（こんか）アサインロジック
-# =========================
+# .envファイルからAPIキー読み込み
+load_dotenv()
+openai.api_key = os.getenv("OPENAI_API_KEY")
+
+# ======== 魂華アサインロジック ========
 def get_zodiac_sign(month, day):
-    if (month == 3 and day >= 21) or (month == 4 and day <= 19):
-        return '牡羊座' 
-    elif (month == 4 and day >= 20) or (month == 5 and day <= 20):
-        return '牡牛座'
-    elif (month == 5 and day >= 21) or (month == 6 and day <= 20):
-        return '双子座'
-    elif (month == 6 and day >= 21) or (month == 7 and day <= 22):
-        return '蟹座'
-    elif (month == 7 and day >= 23) or (month == 8 and day <= 22):
-        return '獅子座'
-    elif (month == 8 and day >= 23) or (month == 9 and day <= 22):
-        return '乙女座'
-    elif (month == 9 and day >= 23) or (month == 10 and day <= 22):
-        return '天秤座'
-    elif (month == 10 and day >= 23) or (month == 11 and day <= 21):
-        return '蠍座'
-    elif (month == 11 and day >= 22) or (month == 12 and day <= 21):
-        return '射手座'
-    elif (month == 12 and day >= 22) or (month == 1 and day <= 19):
-        return '山羊座'
-    elif (month == 1 and day >= 20) or (month == 2 and day <= 18):
-        return '水瓶座'
-    elif (month == 2 and day >= 19) or (month == 3 and day <= 20):
-        return '魚座'
+    if (month == 3 and day >= 21) or (month == 4 and day <= 19): return '牡羊座'
+    elif (month == 4 and day >= 20) or (month == 5 and day <= 20): return '牡牛座'
+    elif (month == 5 and day >= 21) or (month == 6 and day <= 20): return '双子座'
+    elif (month == 6 and day >= 21) or (month == 7 and day <= 22): return '蟹座'
+    elif (month == 7 and day >= 23) or (month == 8 and day <= 22): return '獅子座'
+    elif (month == 8 and day >= 23) or (month == 9 and day <= 22): return '乙女座'
+    elif (month == 9 and day >= 23) or (month == 10 and day <= 22): return '天秤座'
+    elif (month == 10 and day >= 23) or (month == 11 and day <= 21): return '蠍座'
+    elif (month == 11 and day >= 22) or (month == 12 and day <= 21): return '射手座'
+    elif (month == 12 and day >= 22) or (month == 1 and day <= 19): return '山羊座'
+    elif (month == 1 and day >= 20) or (month == 2 and day <= 18): return '水瓶座'
+    elif (month == 2 and day >= 19) or (month == 3 and day <= 20): return '魚座'
 
 def assign_konka(zodiac):
     mapping = {
@@ -48,9 +41,7 @@ def assign_konka(zodiac):
     }
     return mapping.get(zodiac, '魂華（こんか / Konka）')
 
-# =========================
-# Streamlit アプリ本体
-# =========================
+# ======== UI構築 ========
 st.title("🌸 九華リーディング - 宇宙と繋がる魂のナビゲーション")
 st.subheader("あなたの内なる運命と使命を読み解きます")  
 
@@ -63,7 +54,7 @@ if st.button("✨ リーディングを始める") and name and birth_date:
     zodiac = get_zodiac_sign(month, day)
     konkah = assign_konka(zodiac)
 
-    # ランダム生成エリア
+    # ===== ランダム生成エリア =====
     lucky_color = random.choice(["ローズゴールド", "セージグリーン", "アイスブルー", "ミッドナイトネイビー"])
     lucky_food = random.choice(["酵素たっぷりスムージー", "塩麹入りスープ", "黒ごま団子", "月見だんご"])
     lucky_direction = random.choice(["東北東", "南南西", "西", "北東"])
@@ -76,6 +67,24 @@ if st.button("✨ リーディングを始める") and name and birth_date:
     shrine_time = random.choice(["午前7〜9時（清浄）", "夕方4時前後（静寂）"])
     shrine_dress = random.choice(["白 or ラベンダー色の服", "和装 + 木の小物"])
 
+    # ===== 宇宙メッセージ生成（OpenAI） =====
+    system_prompt = "あなたは高次元のスピリチュアルガイドです。ユーザーの質問に対して、宇宙からの神秘的で愛に満ちたメッセージを伝えてください。"
+
+    if question.strip():
+        response = openai.ChatCompletion.create(
+            model="gpt-3.5-turbo",
+            messages=[
+                {"role": "system", "content": system_prompt},
+                {"role": "user", "content": f"質問：「{question}」に対する宇宙からのメッセージをください。"}
+            ],
+            temperature=0.9,
+            max_tokens=400
+        )
+        ai_message = response.choices[0].message.content
+    else:
+        ai_message = "今はまだ静かに内なる声に耳を傾けるときです。焦らず、流れに委ねましょう。"
+
+    # ===== 出力 =====
     st.markdown(f"""
     ---
     ## 🌟 {name} さんの 九華リーディング結果 🌟
@@ -124,8 +133,8 @@ if st.button("✨ リーディングを始める") and name and birth_date:
     ### 🪐 宇宙からのメッセージ
 
     ご質問：「{question if question else '特になし'}」
-    > 今のあなたに必要なのは「**余白**」と「**感性の拡張**」。静かに宇宙のサインを受け取る時間を確保しましょう。
+    > {ai_message}
 
+    ---
     """)
-
     st.caption("©️ 2025 九華リーディング - Neo Cosmique Edition")
