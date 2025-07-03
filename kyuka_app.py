@@ -4,7 +4,7 @@ import datetime
 import random
 import os
 import openai
-from dotenv import load_dotenv
+openai.api_key = st.secrets["OPENAI_API_KEY"]
 
 # .envファイルからAPIキー読み込み
 load_dotenv()
