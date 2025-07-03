@@ -8,6 +8,7 @@ openai.api_key = st.secrets["OPENAI_API_KEY"]
 
 
 
+
 # ======== 魂華アサインロジック ========
 def get_zodiac_sign(month, day):
     if (month == 3 and day >= 21) or (month == 4 and day <= 19): return '牡羊座'
