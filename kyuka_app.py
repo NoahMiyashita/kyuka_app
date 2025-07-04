@@ -5,9 +5,6 @@ from openai import OpenAI
 
 client = OpenAI(api_key=st.secrets["OPENAI_API_KEY"])
 
-
-
-
 # ======== 魂華アサインロジック ========
 def get_zodiac_sign(month, day):
     if (month == 3 and day >= 21) or (month == 4 and day <= 19): return '牡羊座'
@@ -53,7 +50,6 @@ if st.button("✨ リーディングを始める") and name and birth_date:
     zodiac = get_zodiac_sign(month, day)
     konkah = assign_konka(zodiac)
 
-    # ===== ランダム生成エリア =====
     lucky_color = random.choice(["ローズゴールド", "セージグリーン", "アイスブルー", "ミッドナイトネイビー"])
     lucky_food = random.choice(["酵素たっぷりスムージー", "塩麹入りスープ", "黒ごま団子", "月見だんご"])
     lucky_direction = random.choice(["東北東", "南南西", "西", "北東"])
@@ -66,11 +62,9 @@ if st.button("✨ リーディングを始める") and name and birth_date:
     shrine_time = random.choice(["午前7〜9時（清浄）", "夕方4時前後（静寂）"])
     shrine_dress = random.choice(["白 or ラベンダー色の服", "和装 + 木の小物"])
 
-    # ===== 宇宙メッセージ生成（OpenAI） =====
     system_prompt = "あなたは高次元のスピリチュアルガイドです。ユーザーの質問に対して、宇宙からの神秘的で愛に満ちたメッセージを伝えてください。"
 
-
-        if question.strip():
+    if question.strip():
         response = client.chat.completions.create(
             model="gpt-3.5-turbo",
             messages=[
@@ -81,11 +75,9 @@ if st.button("✨ リーディングを始める") and name and birth_date:
             max_tokens=400
         )
         ai_message = response.choices[0].message.content
-        
     else:
         ai_message = "今はまだ静かに内なる声に耳を傾けるときです。焦らず、流れに委ねましょう。"
 
-    # ===== 出力 =====
     st.markdown(f"""
     ---
     ## 🌟 {name} さんの 九華リーディング結果 🌟
@@ -139,4 +131,3 @@ if st.button("✨ リーディングを始める") and name and birth_date:
     ---
     """)
     st.caption("©️ 2025 九華リーディング - Neo Cosmique Edition")
-
