@@ -62,9 +62,11 @@ if st.button("✨ リーディングを始める") and name and birth_date:
     shrine_time = random.choice(["午前7〜9時（清浄）", "夕方4時前後（静寂）"])
     shrine_dress = random.choice(["白 or ラベンダー色の服", "和装 + 木の小物"])
 
-    system_prompt = "あなたは高次元のスピリチュアルガイドです。ユーザーの質問に対して、宇宙からの神秘的で愛に満ちたメッセージを伝えてください。"
+# ===== 宇宙メッセージ生成（OpenAI） =====
+system_prompt = "あなたは高次元のスピリチュアルガイドです。ユーザーの質問に対して、宇宙からの神秘的で愛に満ちたメッセージを伝えてください。"
 
-    if question.strip():
+if question.strip():
+    try:
         response = client.chat.completions.create(
             model="gpt-3.5-turbo",
             messages=[
@@ -75,8 +77,13 @@ if st.button("✨ リーディングを始める") and name and birth_date:
             max_tokens=400
         )
         ai_message = response.choices[0].message.content
-    else:
-        ai_message = "今はまだ静かに内なる声に耳を傾けるときです。焦らず、流れに委ねましょう。"
+    except openai.RateLimitError:
+        ai_message = "現在、宇宙との通信が集中しています。少し時間を置いて再度お試しください。"
+    except Exception as e:
+        ai_message = f"宇宙からのメッセージ取得中にエラーが発生しました：{e}"
+else:
+    ai_message = "今はまだ静かに内なる声に耳を傾けるときです。焦らず、流れに委ねましょう。"
+
 
     st.markdown(f"""
     ---
