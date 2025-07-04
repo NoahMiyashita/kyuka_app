@@ -1,10 +1,9 @@
-
 import streamlit as st
 import datetime
 import random
-import os
-import openai
-openai.api_key = st.secrets["OPENAI_API_KEY"]
+from openai import OpenAI
+
+client = OpenAI(api_key=st.secrets["OPENAI_API_KEY"])
 
 
 
@@ -70,8 +69,9 @@ if st.button("✨ リーディングを始める") and name and birth_date:
     # ===== 宇宙メッセージ生成（OpenAI） =====
     system_prompt = "あなたは高次元のスピリチュアルガイドです。ユーザーの質問に対して、宇宙からの神秘的で愛に満ちたメッセージを伝えてください。"
 
-    if question.strip():
-        response = openai.ChatCompletion.create(
+
+        if question.strip():
+        response = client.chat.completions.create(
             model="gpt-3.5-turbo",
             messages=[
                 {"role": "system", "content": system_prompt},
@@ -81,6 +81,7 @@ if st.button("✨ リーディングを始める") and name and birth_date:
             max_tokens=400
         )
         ai_message = response.choices[0].message.content
+        
     else:
         ai_message = "今はまだ静かに内なる声に耳を傾けるときです。焦らず、流れに委ねましょう。"
 
